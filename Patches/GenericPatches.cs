@@ -17,37 +17,37 @@ using UnityEngine.AddressableAssets;
 
 namespace ClassicUs.Patches;
 
+// Warning, this might be removed or inlined eventually.
+[HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldClassicMode))]
+public static class AlwaysClassic
+{
+    public static bool Prefix(out bool __result)
+    {
+        __result = true;
+        return false;
+    }
+}
 [HarmonyPatch(typeof(PlayerAnimations), nameof(PlayerAnimations.SetBodyType))]
 public static class PlayerAnimationsSetBodyType
 {
     public static void Prefix(PlayerAnimations __instance, [HarmonyArgument(0)] PlayerBodyTypes type)
     {
         var group = (int)type;
-        if (type == PlayerBodyTypes.Normal)
+
+        // Not needed anymore, we just replace normal with Classic
+        if (type == PlayerBodyTypes.Seeker)
         {
-            __instance.animationGroups[group].IdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Idle_Old");
-            __instance.animationGroups[group].RunAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Walk_Old");
-            __instance.animationGroups[group].SpawnAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("SpawnIn_Old");
-            __instance.animationGroups[group].GhostIdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Ghost2021_Old");
-            __instance.animationGroups[group].GhostGuardianAngelAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Ghost2021_Old");
-            __instance.animationGroups[group].EnterVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("EnterVent_Old");
-            __instance.animationGroups[group].ExitVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ExitVent_Old");
-            __instance.animationGroups[group].ClimbUpAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClimbUp_Old");
-            __instance.animationGroups[group].ClimbDownAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClimbDown_Old");
-            __instance.animationGroups[group].defaultPlayerScale = Vector3.one;
-        }
-        else if (type == PlayerBodyTypes.Seeker)
-        {
-            __instance.animationGroups[group].IdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Idle_Old");
-            __instance.animationGroups[group].RunAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Walk_Old");
-            __instance.animationGroups[group].SpawnAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("SpawnIn_Old");
-            __instance.animationGroups[group].GhostIdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Ghost2021_Old");
-            __instance.animationGroups[group].GhostGuardianAngelAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("Ghost2021_Old");
-            __instance.animationGroups[group].EnterVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("EnterVent_Old");
-            __instance.animationGroups[group].ExitVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ExitVent_Old");
-            __instance.animationGroups[group].ClimbUpAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClimbUp_Old");
-            __instance.animationGroups[group].ClimbDownAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClimbDown_Old");
-            __instance.animationGroups[group].defaultPlayerScale = Vector3.one;
+            //__instance.animationGroups[group].NodeSyncs = __instance.animationGroups[(int)PlayerBodyTypes.Classic].NodeSyncs;
+            __instance.animationGroups[group].IdleAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].IdleAnim;
+            __instance.animationGroups[group].RunAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].RunAnim;
+            __instance.animationGroups[group].SpawnAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].SpawnAnim;
+            __instance.animationGroups[group].GhostIdleAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].GhostIdleAnim;
+            __instance.animationGroups[group].GhostGuardianAngelAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].GhostGuardianAngelAnim;
+            __instance.animationGroups[group].EnterVentAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].EnterVentAnim;
+            __instance.animationGroups[group].ExitVentAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].ExitVentAnim;
+            __instance.animationGroups[group].ClimbUpAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].ClimbUpAnim;
+            __instance.animationGroups[group].ClimbDownAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].ClimbDownAnim;
+            __instance.animationGroups[group].defaultPlayerScale = __instance.animationGroups[(int)PlayerBodyTypes.Classic].defaultPlayerScale;
             __instance.transform.GetParent().GetComponent<PlayerControl>().cosmetics.currentBodySprite.BodySprite.material.SetColor("_VisorColor", Color.green);
         }
     }
@@ -55,6 +55,14 @@ public static class PlayerAnimationsSetBodyType
 [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.SetBodyType))]
 public static class PlayerPhysicsSetBodyType
 {
+    public static void Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] ref PlayerBodyTypes type)
+    {
+        if (type == PlayerBodyTypes.Normal)
+        {
+            type = PlayerBodyTypes.Classic;
+        }
+    }
+
     public static void Postfix(PlayerPhysics __instance)
     {
         __instance.myPlayer.cosmetics.SetScale(__instance.Animations.DefaultPlayerScale, __instance.myPlayer.defaultCosmeticsScale);
@@ -180,6 +188,7 @@ public static class PreviewDataRuntimeKeyPatch
         return false;
     }
 }
+/*
 [HarmonyPatch(typeof(PoolablePlayer), nameof(PoolablePlayer.InitBody))]
 public static class InitBodyPatch
 {
@@ -203,6 +212,7 @@ public static class InitBodyPatch
         }
     }
 }
+*/
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
 public static class HudInitPatch
 {
@@ -326,6 +336,7 @@ public static class LobbyInfoPaneOff
         __instance.LobbyInfoPane.transform.GetChild(0).gameObject.SetActive(false);
     }
 }
+/*
 [HarmonyPatch(typeof(HatManager), nameof(HatManager.Initialize))]
 public static class HatManagerChangeHats
 {
@@ -357,6 +368,71 @@ public static class HatManagerChangeHats
             {
                 int index = __instance.allHats.IndexOf(oldHat);
                 __instance.allHats[index] = newHat;
+            }
+        }
+    }
+}
+*/
+[HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+public static class RemoveMeetingBG
+{
+    public static void Postfix(MeetingHud __instance)
+    {
+        __instance.BlackBackground.sprite = null;
+    }
+}
+[HarmonyPatch(typeof(CheckClassicText), nameof(CheckClassicText.OnEnable))]
+public static class CheckClassicTextFix
+{
+    // This fixes broken Innersloth code that makes the meeting text appear twice in non-english.
+
+    public static void Postfix(CheckClassicText __instance)
+    {
+        if (DataManager.Settings.Language.CurrentLanguage != SupportedLangs.English)
+        {
+            __instance.reportedImage.SetActive(false);
+            __instance.reportedText.SetActive(true);
+        }
+    }
+}
+[HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Awake))]
+public static class ChangeTaskSprites
+{
+    public static void Postfix(ShipStatus __instance)
+    {
+        if (!__instance.TryCast<SkeldShipStatus>())
+            return;
+
+        Sprite targetSprite = null;
+
+        foreach (var console in __instance.AllConsoles)
+        {
+            var renderer = console.GetComponent<SpriteRenderer>();
+
+            if (renderer != null && renderer.sprite != null && renderer.sprite.name.ToLowerInvariant() == "panel_datatransfer")
+            {
+                targetSprite = renderer.sprite;
+                break;
+            }
+
+            if (targetSprite != null)
+                break;
+        }
+
+        if (targetSprite == null)
+            return;
+
+        foreach (var console in __instance.AllConsoles)
+        {
+            if (console.TaskTypes.Count > 0 && console.TaskTypes[0] == TaskTypes.UploadData)
+            {
+                var renderer = console.GetComponent<SpriteRenderer>();
+
+                if (renderer != null)
+                {
+                    renderer.sprite = targetSprite;
+                    console.transform.localScale = Vector3.one;
+                }
             }
         }
     }
