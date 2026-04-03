@@ -7,6 +7,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,6 +31,7 @@ public partial class ClassicUsPlugin : BasePlugin
         {
             if (scene.name == "MainMenu")
             {
+
                 GameObject.Find("MainUI").SetActive(false);
                 GameObject.Find("PlayerParticles").SetActive(false);
 
@@ -55,6 +57,21 @@ public partial class ClassicUsPlugin : BasePlugin
                 ClassicAssets.ClassicScenesBundle.GetAllScenePaths().ToList().ForEach(e => logBuilder.AppendLine(e));
                 ClassicAssets.ClassicScenesBundle.GetAllAssetNames().ToList().ForEach(e => logBuilder.AppendLine(e));
                 Log.LogInfo(logBuilder);
+            }
+
+            if (scene.name != "OnlineGame" && scene.name != "Tutorial")
+            {
+                var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+                foreach (var text in GameObject.FindObjectsOfType<TMP_Text>(true))
+                {
+                    if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+                    {
+                        text.font = font;
+                        //text.fontSharedMaterial = font.material;
+                        text.ForceMeshUpdate();
+                    }
+                }
             }
         }));
     }

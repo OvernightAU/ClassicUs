@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -292,6 +293,8 @@ public static class HudInitPatch
         // Game Options
         var opts = GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("GameSettings"), __instance.transform);
         opts.GetComponent<GameSettingsShower>().Target.Value.fontSize = 1.4f;
+        opts.GetComponent<GameSettingsShower>().Target.Value.font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        opts.GetComponent<GameSettingsShower>().Target.Value.ForceMeshUpdate();
     }
 }
 [HarmonyPatch(typeof(FriendsListManager), nameof(FriendsListManager.ReparentUI))]
@@ -433,6 +436,122 @@ public static class ChangeTaskSprites
                     renderer.sprite = targetSprite;
                     console.transform.localScale = Vector3.one;
                 }
+            }
+        }
+    }
+}
+
+// Font Changes Experiment
+[HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
+public static class ChangeTaskFont
+{
+    public static void Postfix(HudManager __instance)
+    {
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+        foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+            {
+                text.font = font;
+                //text.fontSharedMaterial = font.material;
+                text.ForceMeshUpdate();
+            }
+        }
+    }
+}
+
+[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Awake))]
+public static class ChangeFontPlayer
+{
+    public static void Postfix(PlayerControl __instance)
+    {
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+        foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (text.font != null)
+            {
+                text.font = font;
+                text.ForceMeshUpdate();
+            }
+        }
+    }
+}
+
+[HarmonyPatch(typeof(Minigame), nameof(Minigame.Begin))]
+public static class ChangeFontMinigame
+{
+    public static void Postfix(HudManager __instance)
+    {
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+        foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+            {
+                text.font = font;
+                //text.fontSharedMaterial = font.material;
+                text.ForceMeshUpdate();
+            }
+        }
+    }
+}
+
+[HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetText))]
+public static class ChangeFontChat
+{
+    public static void Prefix(ChatBubble __instance)
+    {
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+        __instance.TextArea.font = font;
+
+        var mat = UnityEngine.Object.Instantiate(font.material);
+
+        mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0f);
+
+        mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
+        mat.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
+
+        __instance.TextArea.fontSharedMaterial = mat;
+
+        __instance.NameText.font = font;
+
+        var mat2 = UnityEngine.Object.Instantiate(font.material);
+
+        // Thickness
+        mat2.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+
+        mat2.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
+        mat2.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.2f);
+
+        mat2.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
+        mat2.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
+
+        mat2.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
+
+        __instance.NameText.fontSharedMaterial = mat2;
+        __instance.NameText.characterSpacing = -4f;
+        __instance.NameText.ForceMeshUpdate();
+    }
+}
+
+[HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Awake))]
+public static class ChangeFontMinimap
+{
+    public static void Postfix(HudManager __instance)
+    {
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+        foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
+        {
+            if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+            {
+                text.font = font;
+                //text.fontSharedMaterial = font.material;
+                text.ForceMeshUpdate();
             }
         }
     }
