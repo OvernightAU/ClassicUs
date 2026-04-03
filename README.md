@@ -55,6 +55,12 @@ dotnet build ClassicUs.sln -p:AmongUs="C:\Path\To\Among Us"
 
 ---
 
+## Credits
+
+Asset bundle management code adapted from [NuclearPowered/Reactor](https://github.com/NuclearPowered/Reactor).
+
+---
+
 ## License
 
 [GPL-3.0](LICENSE)
