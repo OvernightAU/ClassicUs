@@ -498,10 +498,10 @@ public static class ChangeFontPlayer
 
                 var mat = UnityEngine.Object.Instantiate(font.material);
 
-                mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.15f);
+                mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.17f);
 
-                mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.23f);
-                mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.2f);
+                mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.24f);
+                mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.19f);
 
                 mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
                 mat.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
@@ -509,7 +509,8 @@ public static class ChangeFontPlayer
                 mat.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
 
                 text.fontSharedMaterial = mat;
-                text.characterSpacing = -4f;
+                text.characterSpacing = -6.5f;
+                text.fontSize *= 1.10f;
                 text.ForceMeshUpdate();
             }
         }
