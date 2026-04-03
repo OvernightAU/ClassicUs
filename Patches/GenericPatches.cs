@@ -453,15 +453,15 @@ public static class ChangeTaskFont
         {
             if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
             {
-                if (text == __instance.TaskPanel.taskText)
+                if (text == __instance.TaskPanel.taskText || text == __instance.roomTracker.text)
                 {
                     text.font = font;
 
                     var mat = UnityEngine.Object.Instantiate(font.material);
 
-                    mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.15f);
+                    mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.16f);
 
-                    mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
+                    mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.22f);
                     mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.17f);
 
                     mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
@@ -470,7 +470,7 @@ public static class ChangeTaskFont
                     mat.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
 
                     text.fontSharedMaterial = mat;
-
+                    text.characterSpacing = -1.5f;
                     text.ForceMeshUpdate();
 
                     continue;
@@ -546,7 +546,7 @@ public static class ChangeFontChat
 
         var mat = UnityEngine.Object.Instantiate(font.material);
 
-        mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+        mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.08f);
         mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0f);
 
         mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
@@ -559,10 +559,10 @@ public static class ChangeFontChat
         var mat2 = UnityEngine.Object.Instantiate(font.material);
 
         // Thickness
-        mat2.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+        mat2.SetFloat(ShaderUtilities.ID_FaceDilate, 0.14f);
 
-        mat2.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
-        mat2.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.2f);
+        mat2.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.23f);
+        mat2.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.18f);
 
         mat2.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
         mat2.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
@@ -570,7 +570,7 @@ public static class ChangeFontChat
         mat2.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
 
         __instance.NameText.fontSharedMaterial = mat2;
-        __instance.NameText.characterSpacing = -4f;
+        __instance.NameText.characterSpacing = -4.2f;
         __instance.NameText.ForceMeshUpdate();
     }
 }
@@ -606,10 +606,10 @@ public static class ChangeVoteAreaFont
         var mat2 = UnityEngine.Object.Instantiate(font.material);
 
         // Thickness
-        mat2.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+        mat2.SetFloat(ShaderUtilities.ID_FaceDilate, 0.14f);
 
-        mat2.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
-        mat2.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.2f);
+        mat2.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.23f);
+        mat2.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.18f);
 
         mat2.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
         mat2.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
@@ -617,7 +617,7 @@ public static class ChangeVoteAreaFont
         mat2.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
 
         __instance.NameText.fontSharedMaterial = mat2;
-        __instance.NameText.characterSpacing = -4f;
+        __instance.NameText.characterSpacing = -4.2f;
         __instance.NameText.ForceMeshUpdate();
     }
 }
