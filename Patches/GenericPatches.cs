@@ -453,8 +453,30 @@ public static class ChangeTaskFont
         {
             if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
             {
+                if (text == __instance.TaskPanel.taskText)
+                {
+                    text.font = font;
+
+                    var mat = UnityEngine.Object.Instantiate(font.material);
+
+                    mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.15f);
+
+                    mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
+                    mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.17f);
+
+                    mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
+                    mat.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
+
+                    mat.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
+
+                    text.fontSharedMaterial = mat;
+
+                    text.ForceMeshUpdate();
+
+                    continue;
+                }
+
                 text.font = font;
-                //text.fontSharedMaterial = font.material;
                 text.ForceMeshUpdate();
             }
         }
@@ -473,6 +495,21 @@ public static class ChangeFontPlayer
             if (text.font != null)
             {
                 text.font = font;
+
+                var mat = UnityEngine.Object.Instantiate(font.material);
+
+                mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.15f);
+
+                mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.23f);
+                mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.2f);
+
+                mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
+                mat.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
+
+                mat.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
+
+                text.fontSharedMaterial = mat;
+                text.characterSpacing = -4f;
                 text.ForceMeshUpdate();
             }
         }
@@ -554,5 +591,33 @@ public static class ChangeFontMinimap
                 text.ForceMeshUpdate();
             }
         }
+    }
+}
+
+[HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.Start))]
+public static class ChangeVoteAreaFont
+{
+    public static void Prefix(PlayerVoteArea __instance)
+    {
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+
+        __instance.NameText.font = font;
+
+        var mat2 = UnityEngine.Object.Instantiate(font.material);
+
+        // Thickness
+        mat2.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+
+        mat2.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
+        mat2.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.2f);
+
+        mat2.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
+        mat2.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
+
+        mat2.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
+
+        __instance.NameText.fontSharedMaterial = mat2;
+        __instance.NameText.characterSpacing = -4f;
+        __instance.NameText.ForceMeshUpdate();
     }
 }
