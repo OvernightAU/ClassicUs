@@ -1,3 +1,5 @@
+using ClassicUs.Assets;
+using ClassicUs.Extensions;
 using HarmonyLib;
 using UnityEngine;
 
@@ -13,6 +15,14 @@ public static class ShipStatusPatches
             return;
 
         Sprite targetSprite = null;
+
+        foreach (var rend in GameObject.FindObjectsOfType<SpriteRenderer>())
+        {
+            if (rend.sprite != null && rend.sprite.name == "room_med")
+            {
+                rend.sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("room_med_old");
+            }
+        }
 
         foreach (var console in __instance.AllConsoles)
         {
