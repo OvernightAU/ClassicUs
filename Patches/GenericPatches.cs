@@ -660,3 +660,11 @@ public static class FixNoParticle
         return false;
     }
 }
+[HarmonyPatch(typeof(ChatNotification), nameof(ChatNotification.SetUp))]
+public static class DisableChatNotification
+{
+    public static bool Prefix()
+    {
+        return false;
+    }
+}
