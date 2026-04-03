@@ -1,8 +1,6 @@
 ﻿using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace ClassicUs.Extensions;
 

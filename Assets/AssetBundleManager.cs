@@ -1,7 +1,5 @@
 ﻿using ClassicUs.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using Il2CppSystem;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -190,12 +188,3 @@ public static class AssetBundleManager
     }
 }
 
-/// <summary>
-/// The exception that is thrown when an assetbundle is not found.
-/// </summary>
-public class AssetBundleNotFoundException : IOException
-{
-    internal AssetBundleNotFoundException(string name) : base("Couldn't find an assetbundle named " + name)
-    {
-    }
-}
