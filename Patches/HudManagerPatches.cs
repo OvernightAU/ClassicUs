@@ -10,6 +10,7 @@ namespace ClassicUs.Patches;
 [HarmonyPatch(typeof(HudManager))]
 public static class HudManagerPatches
 {
+    /*
     [HarmonyPatch(nameof(HudManager.Start)), HarmonyPostfix]
     public static void HudInitPatch(HudManager __instance)
     {
@@ -90,42 +91,25 @@ public static class HudManagerPatches
         opts.GetComponent<GameSettingsShower>().Target.Value.font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
         opts.GetComponent<GameSettingsShower>().Target.Value.ForceMeshUpdate();
     }
+    */
 
     // Font Changes Experiment
     [HarmonyPatch(nameof(HudManager.Start)), HarmonyPostfix]
     public static void ChangeTaskFont(HudManager __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
+        var arial = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
+        var fallback = ClassicAssets.ClassicBundle.LoadAsset<Material>("ARIAL Atlas Material");
 
         foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
         {
-            if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+            if (text.font != null && text.font.name.Equals(
+                    "LiberationSans SDF",
+                    System.StringComparison.OrdinalIgnoreCase) == true)
             {
                 if (text == __instance.TaskPanel.taskText || text == __instance.roomTracker.text)
                 {
-                    text.font = font;
-
-                    var mat = UnityEngine.Object.Instantiate(font.material);
-
-                    mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.16f);
-
-                    mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.22f);
-                    mat.SetFloat(ShaderUtilities.ID_OutlineSoftness, 0.17f);
-
-                    mat.SetFloat(ShaderUtilities.ID_WeightNormal, 0f);
-                    mat.SetFloat(ShaderUtilities.ID_WeightBold, 0.5f);
-
-                    mat.SetFloat(ShaderUtilities.ID_ScaleRatio_A, 1.0f);
-
-                    text.fontSharedMaterial = mat;
-                    text.characterSpacing = -1.5f;
-                    text.ForceMeshUpdate();
-
-                    continue;
+                    FontHelper.Replace(text, arial, fallback);
                 }
-
-                text.font = font;
-                text.ForceMeshUpdate();
             }
         }
     }

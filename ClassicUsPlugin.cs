@@ -66,45 +66,20 @@ public partial class ClassicUsPlugin : BasePlugin
 
             if (scene.name != "OnlineGame" && scene.name != "Tutorial")
             {
-                var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
-                var fallbackMaterial = ClassicAssets.ClassicBundle.LoadAsset<Material>("ARIAL Atlas Material");
+                var arial = ClassicAssets.ClassicBundle
+                    .LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
-                var arialMaterials = ClassicAssets.ClassicBundle
-                    .LoadAllAssets(Il2CppType.Of<Material>())
-                    .Where(x => x != null)
-                    .ToDictionary(x => x.name, x => x.TryCast<Material>(), StringComparer.OrdinalIgnoreCase);
+                var fallback = ClassicAssets.ClassicBundle
+                    .LoadAsset<Material>("ARIAL Atlas Material");
 
                 foreach (var text in GameObject.FindObjectsOfType<TMP_Text>(true))
                 {
-                    if (text.font == null ||
-                        !text.font.name.Contains("LiberationSans", StringComparison.OrdinalIgnoreCase))
-                        continue;
-
-                    var oldMaterialName = text.fontSharedMaterial?.name;
-
-                    Material targetMaterial = fallbackMaterial;
-
-                    if (!string.IsNullOrEmpty(oldMaterialName))
+                    if (text.font != null && text.font.name.Equals(
+                            "LiberationSans SDF",
+                            StringComparison.OrdinalIgnoreCase) == true)
                     {
-                        var liberationIndex = oldMaterialName.IndexOf(
-                            "LiberationSans",
-                            StringComparison.OrdinalIgnoreCase);
-
-                        if (liberationIndex >= 0)
-                        {
-                            var suffix = oldMaterialName[
-                                (liberationIndex + "LiberationSans".Length)..];
-
-                            var targetName = "ARIAL" + suffix;
-
-                            if (arialMaterials.TryGetValue(targetName, out var matchingMaterial))
-                                targetMaterial = matchingMaterial;
-                        }
+                        FontHelper.Replace(text, arial, fallback);
                     }
-
-                    text.font = font;
-                    text.fontSharedMaterial = targetMaterial;
-                    text.ForceMeshUpdate();
                 }
             }
         }));
