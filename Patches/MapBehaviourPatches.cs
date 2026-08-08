@@ -21,6 +21,8 @@ public static class MapBehaviourPatches
             if (text.font != null)
             {
                 FontHelper.Replace(text, arial, fallback);
+                text.fontSize *= 1.12f;
+                text.fontStyle = FontStyles.Normal;
             }
         }
     }

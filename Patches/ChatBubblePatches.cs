@@ -25,5 +25,7 @@ public static class ChatBubblePatches
                 FontHelper.Replace(text, arial, fallback);
             }
         }
+        __instance.NameText.fontSize *= 1.12f;
+        __instance.NameText.fontStyle = FontStyles.Normal;
     }
 }
