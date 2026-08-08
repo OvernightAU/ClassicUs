@@ -26,6 +26,7 @@ public partial class ClassicUsPlugin : BasePlugin
         Harmony.PatchAll();
 
         ClassInjector.RegisterTypeInIl2Cpp<GameSettingsShower>();
+        ClassInjector.RegisterTypeInIl2Cpp<PopulateFreeplayPopover>();
 
         SceneManager.add_sceneLoaded((System.Action<Scene, LoadSceneMode>)((scene, _) =>
         {
@@ -35,8 +36,9 @@ public partial class ClassicUsPlugin : BasePlugin
                 GameObject.Find("MainUI").SetActive(false);
                 GameObject.Find("PlayerParticles").SetActive(false);
 
-                GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("MainMenu_Old"));
+                GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("ClassicMenu"));
 
+/*
                 var announceButton = GameObject.Find("AnnounceButton").GetComponent<PassiveButton>();
                 announceButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
                 announceButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().announcementPopUp.Show()));
@@ -52,6 +54,7 @@ public partial class ClassicUsPlugin : BasePlugin
                 var invButton = GameObject.Find("InventoryButton").GetComponent<PassiveButton>();
                 invButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
                 invButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToInventory()));
+    */
 
                 StringBuilder logBuilder = new();
                 ClassicAssets.ClassicScenesBundle.GetAllScenePaths().ToList().ForEach(e => logBuilder.AppendLine(e));
@@ -61,7 +64,7 @@ public partial class ClassicUsPlugin : BasePlugin
 
             if (scene.name != "OnlineGame" && scene.name != "Tutorial")
             {
-                var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+                var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
                 foreach (var text in GameObject.FindObjectsOfType<TMP_Text>(true))
                 {

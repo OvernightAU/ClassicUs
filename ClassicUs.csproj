@@ -7,7 +7,7 @@
         <VersionPrefix></VersionPrefix>
         <VersionSuffix></VersionSuffix>
         <Description>Early 2021 Among Us</Description>
-        <Authors>AUAD, DlovanSlayer, Pietro420</Authors>
+        <Authors>Pietro420</Authors>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     </PropertyGroup>
 
