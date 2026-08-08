@@ -11,7 +11,7 @@ public static class PlayerVoteAreaPatches
     [HarmonyPatch(nameof(PlayerVoteArea.Start)), HarmonyPrefix]
     public static void ChangeVoteAreaFont(PlayerVoteArea __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
         __instance.NameText.font = font;
 

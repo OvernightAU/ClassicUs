@@ -11,7 +11,7 @@ public static class ChatBubblePatches
     [HarmonyPatch(nameof(ChatBubble.SetText)), HarmonyPrefix]
     public static void ChangeFontChat(ChatBubble __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
         __instance.TextArea.font = font;
 

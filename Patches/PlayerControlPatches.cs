@@ -11,7 +11,7 @@ public static class PlayerControlPatches
     [HarmonyPatch(nameof(PlayerControl.Awake)), HarmonyPostfix]
     public static void ChangeFontPlayer(PlayerControl __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
         foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
         {

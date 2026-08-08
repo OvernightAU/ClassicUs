@@ -87,7 +87,7 @@ public static class HudManagerPatches
         // Game Options
         var opts = GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("GameSettings"), __instance.transform);
         opts.GetComponent<GameSettingsShower>().Target.Value.fontSize = 1.4f;
-        opts.GetComponent<GameSettingsShower>().Target.Value.font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        opts.GetComponent<GameSettingsShower>().Target.Value.font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
         opts.GetComponent<GameSettingsShower>().Target.Value.ForceMeshUpdate();
     }
 
@@ -95,7 +95,7 @@ public static class HudManagerPatches
     [HarmonyPatch(nameof(HudManager.Start)), HarmonyPostfix]
     public static void ChangeTaskFont(HudManager __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
         foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
         {

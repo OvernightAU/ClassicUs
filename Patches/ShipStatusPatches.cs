@@ -16,6 +16,7 @@ public static class ShipStatusPatches
 
         Sprite targetSprite = null;
 
+/*
         foreach (var rend in GameObject.FindObjectsOfType<SpriteRenderer>())
         {
             if (rend.sprite != null && rend.sprite.name == "room_med")
@@ -23,6 +24,7 @@ public static class ShipStatusPatches
                 rend.sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("room_med_old");
             }
         }
+*/
 
         foreach (var console in __instance.AllConsoles)
         {

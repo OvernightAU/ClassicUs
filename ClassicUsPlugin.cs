@@ -4,7 +4,9 @@ using ClassicUs.Assets;
 using ClassicUs.Components;
 using ClassicUs.Extensions;
 using HarmonyLib;
+using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
+using System;
 using System.Linq;
 using System.Text;
 using TMPro;
@@ -38,23 +40,23 @@ public partial class ClassicUsPlugin : BasePlugin
 
                 GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("ClassicMenu"));
 
-/*
-                var announceButton = GameObject.Find("AnnounceButton").GetComponent<PassiveButton>();
-                announceButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                announceButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().announcementPopUp.Show()));
+                /*
+                                var announceButton = GameObject.Find("AnnounceButton").GetComponent<PassiveButton>();
+                                announceButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                                announceButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().announcementPopUp.Show()));
 
-                var optionsButton = GameObject.Find("1OptionsButton").GetComponent<PassiveButton>();
-                optionsButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                optionsButton.OnClick.AddListener(new System.Action(() => GameObject.FindAnyObjectByType<OptionsMenuBehaviour>(FindObjectsInactive.Include).Open()));
+                                var optionsButton = GameObject.Find("1OptionsButton").GetComponent<PassiveButton>();
+                                optionsButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                                optionsButton.OnClick.AddListener(new System.Action(() => GameObject.FindAnyObjectByType<OptionsMenuBehaviour>(FindObjectsInactive.Include).Open()));
 
-                var storeButton = GameObject.Find("StoreButton").GetComponent<PassiveButton>();
-                storeButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                storeButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToShop()));
+                                var storeButton = GameObject.Find("StoreButton").GetComponent<PassiveButton>();
+                                storeButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                                storeButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToShop()));
 
-                var invButton = GameObject.Find("InventoryButton").GetComponent<PassiveButton>();
-                invButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                invButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToInventory()));
-    */
+                                var invButton = GameObject.Find("InventoryButton").GetComponent<PassiveButton>();
+                                invButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                                invButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToInventory()));
+                    */
 
                 StringBuilder logBuilder = new();
                 ClassicAssets.ClassicScenesBundle.GetAllScenePaths().ToList().ForEach(e => logBuilder.AppendLine(e));
@@ -65,15 +67,44 @@ public partial class ClassicUsPlugin : BasePlugin
             if (scene.name != "OnlineGame" && scene.name != "Tutorial")
             {
                 var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
+                var fallbackMaterial = ClassicAssets.ClassicBundle.LoadAsset<Material>("ARIAL Atlas Material");
+
+                var arialMaterials = ClassicAssets.ClassicBundle
+                    .LoadAllAssets(Il2CppType.Of<Material>())
+                    .Where(x => x != null)
+                    .ToDictionary(x => x.name, x => x.TryCast<Material>(), StringComparer.OrdinalIgnoreCase);
 
                 foreach (var text in GameObject.FindObjectsOfType<TMP_Text>(true))
                 {
-                    if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+                    if (text.font == null ||
+                        !text.font.name.Contains("LiberationSans", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    var oldMaterialName = text.fontSharedMaterial?.name;
+
+                    Material targetMaterial = fallbackMaterial;
+
+                    if (!string.IsNullOrEmpty(oldMaterialName))
                     {
-                        text.font = font;
-                        //text.fontSharedMaterial = font.material;
-                        text.ForceMeshUpdate();
+                        var liberationIndex = oldMaterialName.IndexOf(
+                            "LiberationSans",
+                            StringComparison.OrdinalIgnoreCase);
+
+                        if (liberationIndex >= 0)
+                        {
+                            var suffix = oldMaterialName[
+                                (liberationIndex + "LiberationSans".Length)..];
+
+                            var targetName = "ARIAL" + suffix;
+
+                            if (arialMaterials.TryGetValue(targetName, out var matchingMaterial))
+                                targetMaterial = matchingMaterial;
+                        }
                     }
+
+                    text.font = font;
+                    text.fontSharedMaterial = targetMaterial;
+                    text.ForceMeshUpdate();
                 }
             }
         }));

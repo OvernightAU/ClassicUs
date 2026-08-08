@@ -11,7 +11,7 @@ public static class MapBehaviourPatches
     [HarmonyPatch(nameof(MapBehaviour.Awake)), HarmonyPostfix]
     public static void ChangeFontMinimap(HudManager __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("Arial");
+        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
 
         foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
         {
