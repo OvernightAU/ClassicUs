@@ -11,15 +11,6 @@ public static class PlayerPhysicsPatches
         return false;
     }
 
-    [HarmonyPatch(nameof(PlayerPhysics.SetBodyType)), HarmonyPrefix]
-    public static void PlayerPhysicsSetBodyTypePrefix(PlayerPhysics __instance, [HarmonyArgument(0)] ref PlayerBodyTypes type)
-    {
-        if (type == PlayerBodyTypes.Normal)
-        {
-            type = PlayerBodyTypes.Classic;
-        }
-    }
-
     [HarmonyPatch(nameof(PlayerPhysics.SetBodyType)), HarmonyPostfix]
     public static void PlayerPhysicsSetBodyTypePostfix(PlayerPhysics __instance)
     {

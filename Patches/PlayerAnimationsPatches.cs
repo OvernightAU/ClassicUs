@@ -1,30 +1,46 @@
+using ClassicUs.Assets;
+using ClassicUs.Extensions;
 using HarmonyLib;
+using Sentry.Unity.NativeUtils;
 using UnityEngine;
 
 namespace ClassicUs.Patches;
 
-[HarmonyPatch(typeof(PlayerAnimations))]
+[HarmonyPatch(typeof(PlayerAnimations), nameof(PlayerAnimations.SetBodyType))]
 public static class PlayerAnimationsPatches
 {
-    [HarmonyPatch(nameof(PlayerAnimations.SetBodyType)), HarmonyPrefix]
-    public static void PlayerAnimationsSetBodyType(PlayerAnimations __instance, [HarmonyArgument(0)] PlayerBodyTypes type)
+    public static void Prefix(PlayerAnimations __instance, [HarmonyArgument(0)] PlayerBodyTypes type)
     {
         var group = (int)type;
-
-        // Not needed anymore, we just replace normal with Classic
-        if (type == PlayerBodyTypes.Seeker)
+        if (type == PlayerBodyTypes.Normal)
         {
-            //__instance.animationGroups[group].NodeSyncs = __instance.animationGroups[(int)PlayerBodyTypes.Classic].NodeSyncs;
-            __instance.animationGroups[group].IdleAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].IdleAnim;
-            __instance.animationGroups[group].RunAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].RunAnim;
-            __instance.animationGroups[group].SpawnAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].SpawnAnim;
-            __instance.animationGroups[group].GhostIdleAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].GhostIdleAnim;
-            __instance.animationGroups[group].GhostGuardianAngelAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].GhostGuardianAngelAnim;
-            __instance.animationGroups[group].EnterVentAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].EnterVentAnim;
-            __instance.animationGroups[group].ExitVentAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].ExitVentAnim;
-            __instance.animationGroups[group].ClimbUpAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].ClimbUpAnim;
-            __instance.animationGroups[group].ClimbDownAnim = __instance.animationGroups[(int)PlayerBodyTypes.Classic].ClimbDownAnim;
-            __instance.animationGroups[group].defaultPlayerScale = __instance.animationGroups[(int)PlayerBodyTypes.Classic].defaultPlayerScale;
+            __instance.animationGroups[group].SpriteAnimator.m_defaultAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicIdle");
+            __instance.animationGroups[group].IdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicIdle");
+            __instance.animationGroups[group].RunAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicWalk");
+            __instance.animationGroups[group].SpawnAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicSpawn");
+            __instance.animationGroups[group].GhostIdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicGhost");
+            __instance.animationGroups[group].GhostGuardianAngelAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicGhost");
+            __instance.animationGroups[group].EnterVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicEnterVent");
+            __instance.animationGroups[group].ExitVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicExitVent");
+            __instance.animationGroups[group].ClimbUpAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicClimbUp");
+            __instance.animationGroups[group].ClimbDownAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicClimbDown");
+            __instance.animationGroups[group].SpawnGlowAnim = null;
+            __instance.animationGroups[group].defaultPlayerScale = Vector3.one;
+        }
+        else if (type == PlayerBodyTypes.Seeker)
+        {
+            __instance.animationGroups[group].SpriteAnimator.m_defaultAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicIdle");
+            __instance.animationGroups[group].IdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicIdle");
+            __instance.animationGroups[group].RunAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicWalk");
+            __instance.animationGroups[group].SpawnAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicSpawn");
+            __instance.animationGroups[group].GhostIdleAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicGhost");
+            __instance.animationGroups[group].GhostGuardianAngelAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicGhost");
+            __instance.animationGroups[group].EnterVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicEnterVent");
+            __instance.animationGroups[group].ExitVentAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicExitVent");
+            __instance.animationGroups[group].ClimbUpAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicClimbUp");
+            __instance.animationGroups[group].ClimbDownAnim = ClassicAssets.ClassicBundle.LoadAsset<AnimationClip>("ClassicClimbDown");
+            __instance.animationGroups[group].SpawnGlowAnim = null;
+            __instance.animationGroups[group].defaultPlayerScale = Vector3.one;
             __instance.transform.GetParent().GetComponent<PlayerControl>().cosmetics.currentBodySprite.BodySprite.material.SetColor("_VisorColor", Color.green);
         }
     }
