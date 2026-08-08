@@ -18,7 +18,9 @@ public static class MinigamePatches
 
         foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
         {
-            if (text.font != null)
+            if (text.font != null && text.font.name.Equals(
+                    "LiberationSans SDF",
+                    System.StringComparison.OrdinalIgnoreCase) == true)
             {
                 FontHelper.Replace(text, arial, fallback);
             }
