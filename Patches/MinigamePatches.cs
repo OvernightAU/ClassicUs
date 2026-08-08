@@ -1,7 +1,9 @@
 using ClassicUs.Assets;
+using ClassicUs.Components;
 using ClassicUs.Extensions;
 using HarmonyLib;
 using TMPro;
+using UnityEngine;
 
 namespace ClassicUs.Patches;
 
@@ -11,15 +13,14 @@ public static class MinigamePatches
     [HarmonyPatch(nameof(Minigame.Begin)), HarmonyPostfix]
     public static void ChangeFontMinigame(HudManager __instance)
     {
-        var font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
+        var arial = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
+        var fallback = ClassicAssets.ClassicBundle.LoadAsset<Material>("ARIAL SDF RadialMenu Material");
 
         foreach (var text in __instance.GetComponentsInChildren<TMP_Text>(true))
         {
-            if (text.font != null && text.font.name.ToLowerInvariant().Contains("liberationsans"))
+            if (text.font != null)
             {
-                text.font = font;
-                //text.fontSharedMaterial = font.material;
-                text.ForceMeshUpdate();
+                FontHelper.Replace(text, arial, fallback);
             }
         }
     }
