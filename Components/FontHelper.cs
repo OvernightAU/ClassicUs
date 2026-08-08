@@ -42,8 +42,19 @@ public static class FontHelper
 
         var materialName = originalMaterial.name;
 
-        if (string.IsNullOrEmpty(materialName) ||
-            !materialName.StartsWith(
+        if (string.IsNullOrEmpty(materialName))
+            return fallback;
+
+        const string instanceSuffix = " (Instance)";
+
+        while (materialName.EndsWith(
+                   instanceSuffix,
+                   System.StringComparison.OrdinalIgnoreCase))
+        {
+            materialName = materialName[..^instanceSuffix.Length];
+        }
+
+        if (!materialName.StartsWith(
                 originalFontName,
                 System.StringComparison.OrdinalIgnoreCase))
             return fallback;
