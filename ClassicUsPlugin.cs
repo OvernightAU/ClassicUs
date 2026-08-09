@@ -38,25 +38,26 @@ public partial class ClassicUsPlugin : BasePlugin
                 GameObject.Find("MainUI").SetActive(false);
                 GameObject.Find("PlayerParticles").SetActive(false);
 
-                GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("ClassicMenu"));
+                var classicMenu = GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("ClassicMenu"));
+                var bottomButtons = classicMenu.transform.Find("BottomButtons");
 
-                /*
-                                var announceButton = GameObject.Find("AnnounceButton").GetComponent<PassiveButton>();
-                                announceButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                                announceButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().announcementPopUp.Show()));
+                var announceButton = bottomButtons.Find("AnnounceButton").GetComponent<PassiveButton>();
+                announceButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                announceButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().announcementPopUp.Show()));
 
-                                var optionsButton = GameObject.Find("1OptionsButton").GetComponent<PassiveButton>();
-                                optionsButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                                optionsButton.OnClick.AddListener(new System.Action(() => GameObject.FindAnyObjectByType<OptionsMenuBehaviour>(FindObjectsInactive.Include).Open()));
+                var optionsButton = bottomButtons.Find("OptionsButton").GetComponent<PassiveButton>();
+                optionsButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                optionsButton.OnClick.AddListener(new System.Action(() => GameObject.FindAnyObjectByType<OptionsMenuBehaviour>(FindObjectsInactive.Include).Open()));
 
-                                var storeButton = GameObject.Find("StoreButton").GetComponent<PassiveButton>();
-                                storeButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                                storeButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToShop()));
+                var storeButton = bottomButtons.Find("StoreButton").GetComponent<PassiveButton>();
+                storeButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                storeButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToShop()));
 
-                                var invButton = GameObject.Find("InventoryButton").GetComponent<PassiveButton>();
-                                invButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                                invButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToInventory()));
-                    */
+/*
+                var invButton = GameObject.Find("InventoryButton").GetComponent<PassiveButton>();
+                invButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+                invButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToInventory()));
+*/
 
                 StringBuilder logBuilder = new();
                 ClassicAssets.ClassicScenesBundle.GetAllScenePaths().ToList().ForEach(e => logBuilder.AppendLine(e));
