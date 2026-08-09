@@ -10,7 +10,6 @@ namespace ClassicUs.Patches;
 [HarmonyPatch(typeof(HudManager))]
 public static class HudManagerPatches
 {
-    /*
     [HarmonyPatch(nameof(HudManager.Start)), HarmonyPostfix]
     public static void HudInitPatch(HudManager __instance)
     {
@@ -26,13 +25,13 @@ public static class HudManagerPatches
         pb_settingsButton.OnMouseOut = new();
         pb_settingsButton.OnUpGraphic = false;
         pb_settingsButton.OnDownGraphic = false;
-        pb_settingsButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("settings_old");
+        pb_settingsButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("settings");
         pb_settingsButton.inactiveSprites.transform.localPosition = Vector3.zero;
         pb_settingsButton.inactiveSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-        pb_settingsButton.activeSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("settings_old");
+        pb_settingsButton.activeSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("settings");
         pb_settingsButton.activeSprites.transform.localPosition = Vector3.zero;
         pb_settingsButton.activeSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-        pb_settingsButton.selectedSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("settings_old");
+        pb_settingsButton.selectedSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("settings");
         pb_settingsButton.selectedSprites.transform.localPosition = Vector3.zero;
         pb_settingsButton.selectedSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
 
@@ -48,13 +47,13 @@ public static class HudManagerPatches
         pb_mapButton.OnMouseOut = new();
         pb_mapButton.OnUpGraphic = false;
         pb_mapButton.OnDownGraphic = false;
-        pb_mapButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("mapButtonDark_old");
+        pb_mapButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("mapButtonDark");
         pb_mapButton.inactiveSprites.transform.localPosition = Vector3.zero;
         pb_mapButton.inactiveSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-        pb_mapButton.activeSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("mapButtonDark_old");
+        pb_mapButton.activeSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("mapButtonDark");
         pb_mapButton.activeSprites.transform.localPosition = Vector3.zero;
         pb_mapButton.activeSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-        pb_mapButton.selectedSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("mapButtonDark_old");
+        pb_mapButton.selectedSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("mapButtonDark");
         pb_mapButton.selectedSprites.transform.localPosition = Vector3.zero;
         pb_mapButton.selectedSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
 
@@ -71,13 +70,13 @@ public static class HudManagerPatches
         pb_chatButton.OnMouseOut = new();
         pb_chatButton.OnUpGraphic = false;
         pb_chatButton.OnDownGraphic = false;
-        pb_chatButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("chatIcon_old");
+        pb_chatButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("chatIcon");
         pb_chatButton.inactiveSprites.transform.localPosition = Vector3.zero;
         pb_chatButton.inactiveSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-        pb_chatButton.activeSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("chatIcon_old");
+        pb_chatButton.activeSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("chatIcon");
         pb_chatButton.activeSprites.transform.localPosition = Vector3.zero;
         pb_chatButton.activeSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
-        pb_chatButton.selectedSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("chatIcon_old");
+        pb_chatButton.selectedSprites.GetComponent<SpriteRenderer>().sprite = ClassicAssets.ClassicBundle.LoadAsset<Sprite>("chatIcon");
         pb_chatButton.selectedSprites.transform.localPosition = Vector3.zero;
         pb_chatButton.selectedSprites.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
 
@@ -86,12 +85,11 @@ public static class HudManagerPatches
         nf_chatButton.localScale = new Vector3(0.35f, 0.35f, 1f);
 
         // Game Options
-        var opts = GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("GameSettings"), __instance.transform);
-        opts.GetComponent<GameSettingsShower>().Target.Value.fontSize = 1.4f;
-        opts.GetComponent<GameSettingsShower>().Target.Value.font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
-        opts.GetComponent<GameSettingsShower>().Target.Value.ForceMeshUpdate();
+        //var opts = GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("GameSettings"), __instance.transform);
+        //opts.GetComponent<GameSettingsShower>().Target.Value.fontSize = 1.4f;
+        //opts.GetComponent<GameSettingsShower>().Target.Value.font = ClassicAssets.ClassicBundle.LoadAsset<TMP_FontAsset>("ARIAL SDF");
+        //opts.GetComponent<GameSettingsShower>().Target.Value.ForceMeshUpdate();
     }
-    */
 
     // Font Changes Experiment
     [HarmonyPatch(nameof(HudManager.Start)), HarmonyPostfix]
