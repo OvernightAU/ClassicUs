@@ -6,10 +6,6 @@ namespace ClassicUs.Components;
 
 public class PopulateFreeplayPopover : MonoBehaviour
 {
-    private const float relativeX = 0f;
-    private const float ySeparation = -0.65f;
-    private const float startingYOffset = 2.5f;
-
     private void Start()
     {
         var manager = Object.FindAnyObjectByType<MainMenuManager>(FindObjectsInactive.Include);
@@ -23,11 +19,7 @@ public class PopulateFreeplayPopover : MonoBehaviour
         foreach (var button in officialFreeplayPopOver.buttons)
         {
             var newButton = Instantiate(button, freeplayPopOver.content.transform);
-            
-            float targetY = startingYOffset + (index * ySeparation);
-            newButton.transform.localPosition = new Vector3(relativeX, targetY, 0);
             newButton.OnPressEvent += new System.Action<FreeplayPopoverButton>((b) => freeplayPopOver.OnMapButtonPressed(b));
-
             buttons.Add(newButton);
             index++;
         }
