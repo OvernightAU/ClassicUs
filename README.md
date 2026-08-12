@@ -8,6 +8,13 @@
 
 ---
 
+## Under Development
+The mod is NOT finished yet, i simply decided to make all work open source. Expect:
+- Unfinished menus.
+- Zero/small amount of swapped hats.
+- Desynced animations.
+- Unplayable state.
+
 ## What it changes
 
 | Area | Detail |
