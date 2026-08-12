@@ -104,10 +104,12 @@ public static class HudManagerPatches
                     "LiberationSans SDF",
                     System.StringComparison.OrdinalIgnoreCase) == true)
             {
-                if (text == __instance.TaskPanel.taskText || text == __instance.roomTracker.text)
+                FontHelper.Replace(text, arial, fallback);
+
+                /*if (text == __instance.TaskPanel.taskText || text == __instance.roomTracker.text)
                 {
                     FontHelper.Replace(text, arial, fallback);
-                }
+                }*/
             }
         }
     }

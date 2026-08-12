@@ -10,7 +10,7 @@ public static class FreeplayPopoverPatches
 {
     public const float relativeX = 0f;
     public const float ySeparation = -0.65f;
-    public const float startingYOffset = 2.5f;
+    public const float startingYOffset = 3.5f;
 
     // This patch is meant to override any changes that Submerged may try to do in the FreePlay PopOver content.
     [HarmonyPatch(nameof(FreeplayPopover.Show)), HarmonyPostfix, HarmonyPriority(Priority.VeryLow)]
