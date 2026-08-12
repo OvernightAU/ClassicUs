@@ -3,6 +3,7 @@ using BepInEx.Unity.IL2CPP;
 using ClassicUs.Assets;
 using ClassicUs.Components;
 using ClassicUs.Extensions;
+using ClassicUs.Helpers;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
@@ -38,6 +39,7 @@ public partial class ClassicUsPlugin : BasePlugin
                 GameObject.Find("MainUI").SetActive(false);
                 GameObject.Find("PlayerParticles").SetActive(false);
 
+                var mainMenuManager = GameObject.FindObjectOfType<MainMenuManager>();
                 var classicMenu = GameObject.Instantiate(ClassicAssets.ClassicBundle.LoadAsset<GameObject>("ClassicMenu"));
                 var bottomButtons = classicMenu.transform.Find("BottomButtons");
 
@@ -52,6 +54,9 @@ public partial class ClassicUsPlugin : BasePlugin
                 var storeButton = bottomButtons.Find("StoreButton").GetComponent<PassiveButton>();
                 storeButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
                 storeButton.OnClick.AddListener(new System.Action(() => GameObject.FindObjectOfType<MainMenuManager>().TransitionToShop()));
+
+                mainMenuManager.ControllerSelectable = classicMenu.transform.GetComponentsInChildren<UiElement>().ToList().ToIl2Cpp();
+                mainMenuManager.DefaultButtonSelected = classicMenu.transform.Find("PlayLocalButton").GetComponent<UiElement>();
 
 /*
                 var invButton = GameObject.Find("InventoryButton").GetComponent<PassiveButton>();
