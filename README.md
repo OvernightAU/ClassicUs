@@ -15,6 +15,8 @@ The mod is NOT finished yet, i simply decided to make all work open source. Expe
 - Desynced animations.
 - Unplayable state.
 
+<sub>The Asset Bundle won't be open-sourced for now due to technical limitations in its current implementation. At a later stage of development, the Unity project for the Asset Bundle will be available.</sub>
+
 ## What it changes
 
 | Area | Detail |
